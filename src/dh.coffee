@@ -21,7 +21,15 @@ class Hash
     @redisClient.del @redisKey, callback
 
   exists: (field, callback) ->
-    @redisClient.hexists(@redisKey, field, callback)
+    @redisClient.hexists @redisKey, field, (err, doesIt) ->
+      if err? then callback(err, null); return
+      if doesIt is 1
+        callback(null, true); return
+      else if doesIt is 0
+        callback(null, false); return
+      else
+        callback(new Error("Unexpected result: #{doesIt}."), null)
+
 
   get: (field, callback) ->
     @redisClient.hget @redisKey, field, (err, val) =>

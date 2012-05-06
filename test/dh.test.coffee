@@ -93,7 +93,10 @@ describe 'dh', ->
                       H.exists 'y', (err, res) ->
                         T err is null
                         T res
-                        done()
+                        H.exists 'z', (err, res) ->
+                          T err is null
+                          F res
+                          done()
 
   describe '- get()', ->
     it 'should retrieve the value', (done) ->

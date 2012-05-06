@@ -128,16 +128,27 @@ describe 'dh', ->
           done()
       , 150)
 
-    it 'should set a JSON object', (done) ->
-      H.set val1: 'hi', val2: 'haa', (err, res) ->
+    it 'should set multiple keys', (done) ->
+      H.set key1: 'hi', key2: 'haa', (err, res) ->
         T err is null
-        H.get 'val1', (err, res) ->
+        H.get 'key1', (err, res) ->
           T err is null
           T res is 'hi'
-          H.get 'val2', (err, res) ->
+          H.get 'key2', (err, res) ->
             T err is null
             T res is 'haa'
             done()
+
+    it 'should set a JSON object one key', (done) ->
+      H.set 'person1', JSON.stringify(firstName: 'JP', lastName: 'Richardson'), (err, res) ->
+        T err is null
+        H.get 'person1', (err, res) ->
+          T err is null
+          person = JSON.parse(res)
+          T person.firstName is 'JP'
+          T person.lastName is 'Richardson'
+          done()
+          
 
 
   describe '- quit()', ->

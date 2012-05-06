@@ -41,6 +41,13 @@ class Hash
     switch arguments.length
       when 3
         if typeof arguments[2] is 'function'
+          #val = ''  
+          #If there is going to be transparent object serialization, then there should be transparent object 
+          #deserialization, this would require storing type info
+          #if typeof arguments[1] is 'object'
+          #  val = JSON.stringify(arguments[1])
+          #else
+          #  val = arguments[1]
           @redisClient.hset(@redisKey, arguments[0], arguments[1], arguments[2])
         else
           throw new Error('When there are three arguments, the third must be a callback.')

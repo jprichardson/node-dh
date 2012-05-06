@@ -2,7 +2,7 @@
   "author": "JP Richardson <jprichardson@gmail.com>",
   "name": "dh",
   "description": "A distributed hash. Simply a wrapper around the Redis hash.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "http://github.com/jprichardson/node-dh",
   "repository": {
     "type": "git",

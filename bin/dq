@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 
 if (typeof fs.existsSync === 'undefined')
-  fs.existsSync = path.existsSync; //Node v0.8
+  fs.existsSync = fs.existsSync; //Node v0.8
 
 
 

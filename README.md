@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/jprichardson/node-dh.png)](http://travis-ci.org/jprichardson/node-dh)
 Node.js - dq
 ============
 

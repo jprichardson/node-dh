@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+
+var dh = require('../lib/dh.js')
+  , byline = require('byline')
+  , program = require('commander')
+  , fs = require('fs')
+  , path = require('path');
+
+program
+  .version(require('../package.json').version)
+  .option('-f, --file [inputFile]', 'input file otherwise the default is STDIN')
+  .option('-h, --host [host]', 'host of redis server, the default is localhost')
+  .option('-a, --auth [password]', 'password of redis server')
+  .option('-p, --port [number]', 'port of redis server, the default is 6379')
+  .option('-n, --name [hashName]', 'name of the hash')
+  .parse(process.argv);
+
+if (!program.name) {
+  console.error('Invalid number of arguments. Must at least pass the hash name.');
+  process.exit(1)
+}
+
+var stream;
+if (program.file && program.file.length > 0) {
+  if (!fs.existsSync(program.file)) {
+    console.error("%s does not exist.", program.file)
+    process.exit(2)
+  }
+
+  stream = fs.createReadStream(program.file)
+} else {
+  stream = process.stdin
+}
+
+program.password = program.auth;
+dh.create(program, function (err, h) {
+  if (err) {
+    console.error(err)
+    process.exit(3)
+  }
+
+  var lineStream = byline(stream);
+  lineStream.on('data', function(line){ //parse csv line
+    var pos = line.indexOf(',')
+    var key = line.substring(0, pos)
+    if (key[0] === '"' && key[key.length - 1] === '"')
+      key = key.substring(1, key.length - 1) //chop beginning and ending "" if exist
+    var val = line.substring(pos + 1)
+    if (val[0] === '"' && val[val.length - 1] === '"')
+      val = val.substring(1, val.length - 1)
+    h.set(key, val)
+  })
+
+  lineStream.on('end', function(){
+    process.nextTick(function(){
+      h.quit()
+    })
+  })
+    
+  stream.resume()
+})
+
+

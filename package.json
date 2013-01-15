@@ -2,7 +2,7 @@
   "author": "JP Richardson <jprichardson@gmail.com>",
   "name": "dh",
   "description": "A distributed hash. Simply a wrapper around the Redis hash.",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "homepage": "http://github.com/jprichardson/node-dh",
   "repository": {
     "type": "git",
@@ -10,19 +10,20 @@
   },
   "main": "lib/dh.js",
   "scripts": {
-    "test": "cake test"
-  },
-  "engines": {
-    "node": "0.6.x"
+    "test": "mocha"
   },
   "dependencies": {
-    "redis": "0.7.x",
+    "redis": "0.8.x",
     "hiredis": "0.1.x",
     "byline": "2.0.x",
-    "commander": "0.6.0"
+    "commander": "~1.1.1"
   },
   "devDependencies": {
     "mocha": "*",
     "testutil": "0.3.x"
+  },
+  "bin": {
+    "dh-export": "./bin/dh-export",
+    "dh-import": "./bin/dh-import"
   }
 }

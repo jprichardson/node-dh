@@ -2,6 +2,7 @@
 
 var dh = require('../lib/dh')
   , program = require('commander')
+  , fs = require('fs')
 
 program
   .version(require('../package.json').version)

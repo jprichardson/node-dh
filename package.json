@@ -22,9 +22,7 @@
     "commander": "0.6.0"
   },
   "devDependencies": {
-    "coffee-script": "1.3.x",
-    "mocha": "1.0.x",
-    "testutil": "0.0.3",
-    "growl": "1.5.x"
+    "mocha": "*",
+    "testutil": "0.3.x"
   }
 }

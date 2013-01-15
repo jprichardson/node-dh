@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+
+var dh = require('../lib/dh')
+  , program = require('commander')
+
+program
+  .version(require('../package.json').version)
+  .option('-f, --file [outputFile]', 'output file otherwise the default is STDOUT')
+  .option('-h, --host [host]', 'host of redis server, the default is localhost')
+  .option('-a, --auth [password]', 'password of redis server')
+  .option('-p, --port [number]', 'port of redis server, the default is 6379')
+  .option('-n, --name [hashName]', 'name of the hash')
+  .parse(process.argv)
+
+if (!program.name) {
+  console.error('Invalid number of arguments. Must at least pass the hash name.');
+  process.exit(1)
+}
+
+var stream;
+if (program.file && program.file.length > 0) {
+  if (!fs.existsSync(program.file)) {
+    console.error("%s does not exist.", program.file)
+    process.exit(2)
+  }
+
+  stream = fs.createWriteStream(program.file)
+} else {
+  stream = process.stdout
+}
+
+program.password = program.auth;
+dh.create(program, function (err, h) {
+  if (err) {
+    console.error(err)
+    process.exit(3)
+  }
+
+  h.redisClient.hgetall(h.redisKey, function(err, res) {
+    if (err) {
+      console.error(err)
+      process.exit(4)
+    }
+    Object.keys(res).forEach(function(key) {
+      console.log('"%s","%s"', key, res[key])
+    })
+
+    h.quit()
+  })
+})

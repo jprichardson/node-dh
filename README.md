@@ -1,4 +1,4 @@
-Node.js - dq
+Node.js - dh
 ============
 
 dh is a distributed hash. Simply a wrapper around the Redis hash.
@@ -8,7 +8,7 @@ dh is a distributed hash. Simply a wrapper around the Redis hash.
 Install
 -------
 
-    npm install dh
+    npm install [-g] dh
 
 
 
@@ -59,6 +59,8 @@ Exports to a CSV (two-field).
         -a, --auth [password]    password of redis server
         -p, --port [number]      port of redis server, the default is 6379
         -n, --name [hashName]    name of the hash
+
+note: calling the `-f` flag is insanely slow. Just pipe `stdout` to a file. I'll probably remove this flag.
 
 
 License

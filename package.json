@@ -12,6 +12,7 @@
   "scripts": {
     "test": "mocha"
   },
+  "keywords": ["redis", "hash", "distributed"],
   "dependencies": {
     "redis": "0.8.x",
     "hiredis": "0.1.x",
